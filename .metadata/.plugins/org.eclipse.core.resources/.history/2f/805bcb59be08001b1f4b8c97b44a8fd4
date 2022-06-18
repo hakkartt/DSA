@@ -1,0 +1,109 @@
+/* Authors: Markus Arlander and Tommi Junttila, Aalto University.
+ * Only for the use on the Aalto course CS-A1140.
+ * Redistribution not allowed.
+ */
+
+package object rabinKarp {
+  /**
+   * A reference implementation of the naive substring search algorithm.
+   * Returns the starting index of the first occurrence of the pattern
+   * in the text, or -1 if the pattern does not occur in the text.
+   * Works in time O(nm), where n is the lenght of the text string and
+   * m is the lenght of the pattern string.
+   */
+  def findSubstringNaive(text: String, pattern: String): Int = {
+    val n = text.size
+    val m = pattern.size
+    val end = n - m
+    var i = 0
+    while(i <= end) {
+      var j = i
+      var k = 0
+      while(k < m && text(j) == pattern(k)) {
+        j += 1
+        k += 1
+      }
+      if(k == m)
+        return i
+      i += 1
+    }
+    -1
+  }
+
+  /**
+   * Substring search with the Rabin-Karp algorithm.
+   * Returns the starting index of the first occurrence of the pattern
+   * in the text, or -1 if the pattern does not occur in the text.
+   * Works in expected time O(n+m), where n is the lenght of the text string and
+   * m is the lenght of the pattern string.
+   */
+  def findSubstring(text: String, pattern: String): Int = {
+    val n = text.size
+    val m = pattern.size
+    if(m > n)
+      return -1
+    
+    val base = 1
+    
+    var int = m-1
+    var hp = 0
+    var mult = 1
+    
+    
+    //getting hash
+    while(int >= 0){
+      hp += pattern(int).toInt*mult
+      mult = mult * base
+      int -= 1
+    }
+  
+    
+    var i = 0
+    int = m-1
+    var firstTry = text.take(m)
+    var rollingHash = 0
+    mult = 1
+    
+    while(int >= 0){
+      
+      rollingHash += firstTry(int).toInt * mult
+      mult = mult * base
+      int -= 1
+    }
+
+    //-------------------
+    var highmulti = 1
+    var x = 0
+    
+    while(x <  m-1){
+      
+      highmulti = highmulti * base
+      x += 1
+    }
+    
+    val end = n - m
+    
+    //-----------------------
+    
+    var totaltime  = 0
+    while(i <= end) {
+      
+      if(rollingHash ==  hp){
+        if(text.substring(i, i+m) == pattern){
+          return i
+        }
+      }
+      
+      
+      if(i != end){
+        
+        var tmp = rollingHash - text(i) * highmulti
+        rollingHash = base*tmp + text(i+m)
+      }
+      
+      i += 1
+    }
+    
+    -1  
+  }
+}

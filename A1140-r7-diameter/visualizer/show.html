@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+.node {stroke: #bbb; stroke-width: 1.5px; }
+.link {stroke: #999; stroke-opacity: .6; }
+.graphView {background-color: #eef; width: auto; }
+</style>
+<title>A simple D3js visualizer</title>
+<body>
+<p>
+This is a simple D3js-based graph visualizer modified from http://bl.ocks.org/mbostock/4062045.
+</p>
+<p><b>Remember to reload me</b> after running a visualizer object</p>
+<svg class="graphView" id="graphView"></svg>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+var width = 960, height = 500;
+//var color = d3.scale.category20();
+var color = d3.scale.linear().domain([-1, 0, 1]).range(["blue", "white", "red"]);
+var graph = { "nodes":[
+  {"name":"the","group":-0.333},
+  {"name":"and","group":-0.333},
+  {"name":"for","group":-1.000},
+  {"name":"are","group":-1.000},
+  {"name":"but","group":0.333},
+  {"name":"not","group":-0.333},
+  {"name":"you","group":-1.000},
+  {"name":"all","group":-1.000},
+  {"name":"any","group":-0.333},
+  {"name":"can","group":-0.333},
+  {"name":"had","group":-0.333},
+  {"name":"her","group":-1.000},
+  {"name":"was","group":0.333},
+  {"name":"one","group":-1.000},
+  {"name":"our","group":-0.333},
+  {"name":"out","group":1.000},
+  {"name":"day","group":0.333},
+  {"name":"get","group":-0.333},
+  {"name":"has","group":1.000},
+  {"name":"him","group":-0.333},
+  {"name":"his","group":0.333},
+  {"name":"how","group":-0.333},
+  {"name":"man","group":-0.333},
+  {"name":"new","group":-0.333},
+  {"name":"now","group":1.000},
+  {"name":"old","group":-1.000},
+  {"name":"see","group":-0.333},
+  {"name":"two","group":-0.333},
+  {"name":"way","group":1.000},
+  {"name":"who","group":-1.000},
+  {"name":"boy","group":-1.000},
+  {"name":"did","group":-1.000},
+  {"name":"its","group":-1.000},
+  {"name":"let","group":-0.333},
+  {"name":"put","group":0.333},
+  {"name":"say","group":0.333},
+  {"name":"she","group":0.333},
+  {"name":"too","group":-0.333},
+  {"name":"use","group":-1.000}
+], "links":[
+  {"source":8,"target":1,"value":1},
+  {"source":15,"target":4,"value":1},
+  {"source":15,"target":14,"value":1},
+  {"source":18,"target":10,"value":1},
+  {"source":18,"target":12,"value":1},
+  {"source":20,"target":19,"value":1},
+  {"source":20,"target":18,"value":1},
+  {"source":22,"target":9,"value":1},
+  {"source":24,"target":21,"value":1},
+  {"source":24,"target":23,"value":1},
+  {"source":24,"target":5,"value":1},
+  {"source":28,"target":12,"value":1},
+  {"source":28,"target":16,"value":1},
+  {"source":33,"target":17,"value":1},
+  {"source":34,"target":15,"value":1},
+  {"source":34,"target":4,"value":1},
+  {"source":35,"target":28,"value":1},
+  {"source":35,"target":16,"value":1},
+  {"source":36,"target":0,"value":1},
+  {"source":36,"target":26,"value":1},
+  {"source":37,"target":27,"value":1}
+]};
+var force = d3.layout.force()
+    .charge(-120)
+    .linkDistance(50)
+    .size([width, height]);
+
+var svg = d3.select("#graphView") //.append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+force.nodes(graph.nodes).links(graph.links).start();
+
+var link = svg.selectAll(".link")
+    .data(graph.links)
+    .enter().append("line")
+    .attr("class", "link")
+    .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+var node = svg.selectAll(".node")
+    .data(graph.nodes)
+    .enter().append("circle")
+    .attr("class", "node")
+    .attr("r", 10)
+    .style("fill", function(d) { return color(d.group); })
+    .call(force.drag);
+
+node.append("title")
+    .text(function(d) { return d.name; });
+
+var texts = svg.selectAll("text.label")
+    .data(graph.nodes)
+    .enter().append("text")
+    .attr("class", "label")
+    .attr("fill", "black")
+    .text(function(d) {  return d.name;  });
+
+force.on("tick", function() {
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node.attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+        
+    texts.attr("transform", function(d) {
+        return "translate(" + d.x + "," + d.y + ")";});  
+});
+</script>
+</body>
+</html>

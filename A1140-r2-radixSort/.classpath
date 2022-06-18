@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+        <classpathentry kind="src" path="src"/>
+        <classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/scalatest_2.12-3.0.3.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/scalactic_2.12-3.0.3.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/asm-5.0.4.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/commons-lang3-3.4.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/commons-math3-3.2.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/jackson-annotations-2.8.8.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/jackson-core-2.8.8.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/jackson-databind-2.8.8.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/jackson-module-paranamer-2.8.8.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/jackson-module-scala_2.12-2.8.8.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/paranamer-2.8.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/scala-library-2.12.2.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/scala-xml_2.12-1.0.5.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/scala-parser-combinators_2.12-1.0.4.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/scalameter_2.12-0.8.2.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/scalameter-core_2.12-0.8.2.jar"/>
+        <classpathentry kind="lib" path="/A1140-libs/lib/test-interface-0.5.jar"/>
+</classpath>

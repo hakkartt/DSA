@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+.node {stroke: #bbb; stroke-width: 1.5px; }
+.link {stroke: #999; stroke-opacity: .6; }
+.graphView {background-color: #eef; width: auto; }
+</style>
+<title>A simple D3js visualizer</title>
+<body>
+<p>
+This is a simple D3js-based graph visualizer modified from http://bl.ocks.org/mbostock/4062045.
+</p>
+<p><b>Remember to reload me</b> after running a visualizer object</p>
+<svg class="graphView" id="graphView"></svg>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+var width = 960, height = 500;
+//var color = d3.scale.category20();
+var color = d3.scale.linear().domain([-1, 0, 1]).range(["blue", "white", "red"]);
+var graph = { "nodes":[
+  {"name":"0","group":0.000},
+  {"name":"1","group":0.000},
+  {"name":"2","group":0.000},
+  {"name":"3","group":0.000},
+  {"name":"4","group":0.000},
+  {"name":"5","group":0.500},
+  {"name":"6","group":0.000},
+  {"name":"7","group":0.000},
+  {"name":"8","group":0.000},
+  {"name":"9","group":0.000},
+  {"name":"10","group":1.000},
+  {"name":"11","group":0.000},
+  {"name":"12","group":0.000},
+  {"name":"13","group":0.000},
+  {"name":"14","group":0.500},
+  {"name":"15","group":0.000},
+  {"name":"16","group":0.000},
+  {"name":"17","group":0.500},
+  {"name":"18","group":-0.500},
+  {"name":"19","group":0.000},
+  {"name":"20","group":0.000},
+  {"name":"21","group":0.000},
+  {"name":"22","group":0.000},
+  {"name":"23","group":0.000},
+  {"name":"24","group":0.000},
+  {"name":"25","group":0.000},
+  {"name":"26","group":0.000},
+  {"name":"27","group":0.000},
+  {"name":"28","group":0.000},
+  {"name":"29","group":0.000},
+  {"name":"30","group":-0.500},
+  {"name":"31","group":0.000},
+  {"name":"32","group":0.500},
+  {"name":"33","group":0.000},
+  {"name":"34","group":0.000},
+  {"name":"35","group":1.000},
+  {"name":"36","group":0.000},
+  {"name":"37","group":0.000},
+  {"name":"38","group":0.000},
+  {"name":"39","group":0.000},
+  {"name":"40","group":0.500},
+  {"name":"41","group":0.000},
+  {"name":"42","group":0.500},
+  {"name":"43","group":0.000},
+  {"name":"44","group":0.000},
+  {"name":"45","group":-0.500},
+  {"name":"46","group":-0.500},
+  {"name":"47","group":0.500},
+  {"name":"48","group":-0.500},
+  {"name":"49","group":0.500},
+  {"name":"50","group":0.500},
+  {"name":"51","group":0.500},
+  {"name":"52","group":0.500},
+  {"name":"53","group":0.000},
+  {"name":"54","group":0.500},
+  {"name":"55","group":0.000},
+  {"name":"56","group":1.000},
+  {"name":"57","group":1.000},
+  {"name":"58","group":0.000},
+  {"name":"59","group":0.500}
+], "links":[
+  {"source":7,"target":4,"value":1},
+  {"source":14,"target":7,"value":1},
+  {"source":15,"target":1,"value":1},
+  {"source":16,"target":12,"value":1},
+  {"source":17,"target":3,"value":1},
+  {"source":20,"target":5,"value":1},
+  {"source":20,"target":10,"value":1},
+  {"source":22,"target":21,"value":1},
+  {"source":22,"target":8,"value":1},
+  {"source":24,"target":19,"value":1},
+  {"source":27,"target":26,"value":1},
+  {"source":28,"target":14,"value":1},
+  {"source":29,"target":2,"value":1},
+  {"source":29,"target":26,"value":1},
+  {"source":31,"target":10,"value":1},
+  {"source":33,"target":0,"value":1},
+  {"source":34,"target":30,"value":1},
+  {"source":35,"target":32,"value":1},
+  {"source":35,"target":16,"value":1},
+  {"source":36,"target":21,"value":1},
+  {"source":36,"target":27,"value":1},
+  {"source":37,"target":31,"value":1},
+  {"source":37,"target":34,"value":1},
+  {"source":38,"target":18,"value":1},
+  {"source":39,"target":12,"value":1},
+  {"source":40,"target":33,"value":1},
+  {"source":40,"target":8,"value":1},
+  {"source":41,"target":15,"value":1},
+  {"source":41,"target":0,"value":1},
+  {"source":42,"target":40,"value":1},
+  {"source":42,"target":35,"value":1},
+  {"source":42,"target":24,"value":1},
+  {"source":43,"target":3,"value":1},
+  {"source":43,"target":19,"value":1},
+  {"source":44,"target":6,"value":1},
+  {"source":46,"target":32,"value":1},
+  {"source":47,"target":10,"value":1},
+  {"source":47,"target":5,"value":1},
+  {"source":47,"target":23,"value":1},
+  {"source":48,"target":9,"value":1},
+  {"source":49,"target":17,"value":1},
+  {"source":49,"target":11,"value":1},
+  {"source":49,"target":13,"value":1},
+  {"source":50,"target":35,"value":1},
+  {"source":50,"target":2,"value":1},
+  {"source":50,"target":28,"value":1},
+  {"source":51,"target":25,"value":1},
+  {"source":51,"target":10,"value":1},
+  {"source":52,"target":17,"value":1},
+  {"source":52,"target":25,"value":1},
+  {"source":53,"target":11,"value":1},
+  {"source":53,"target":13,"value":1},
+  {"source":54,"target":14,"value":1},
+  {"source":54,"target":39,"value":1},
+  {"source":55,"target":51,"value":1},
+  {"source":56,"target":23,"value":1},
+  {"source":56,"target":9,"value":1},
+  {"source":56,"target":52,"value":1},
+  {"source":56,"target":6,"value":1},
+  {"source":57,"target":55,"value":1},
+  {"source":57,"target":4,"value":1},
+  {"source":57,"target":32,"value":1},
+  {"source":57,"target":45,"value":1},
+  {"source":58,"target":1,"value":1},
+  {"source":58,"target":44,"value":1},
+  {"source":59,"target":38,"value":1},
+  {"source":59,"target":54,"value":1},
+  {"source":59,"target":5,"value":1}
+]};
+var force = d3.layout.force()
+    .charge(-120)
+    .linkDistance(50)
+    .size([width, height]);
+
+var svg = d3.select("#graphView") //.append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+force.nodes(graph.nodes).links(graph.links).start();
+
+var link = svg.selectAll(".link")
+    .data(graph.links)
+    .enter().append("line")
+    .attr("class", "link")
+    .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+var node = svg.selectAll(".node")
+    .data(graph.nodes)
+    .enter().append("circle")
+    .attr("class", "node")
+    .attr("r", 10)
+    .style("fill", function(d) { return color(d.group); })
+    .call(force.drag);
+
+node.append("title")
+    .text(function(d) { return d.name; });
+
+var texts = svg.selectAll("text.label")
+    .data(graph.nodes)
+    .enter().append("text")
+    .attr("class", "label")
+    .attr("fill", "black")
+    .text(function(d) {  return d.name;  });
+
+force.on("tick", function() {
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node.attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+        
+    texts.attr("transform", function(d) {
+        return "translate(" + d.x + "," + d.y + ")";});  
+});
+</script>
+</body>
+</html>
